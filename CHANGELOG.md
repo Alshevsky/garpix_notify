@@ -1,5 +1,6 @@
-### 5.11.4 (15.09.2022)
-- Fixed an error with the phone if it was not specified when sending.
+### 5.11.4 (19.09.2022)
+
+- Fixed bugs with phone field and sms client config
 
 ### 5.11.3 (24.08.2022)
 
