@@ -4,29 +4,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0011_notifycategory_template'),
+        ("garpix_notify", "0011_notifycategory_template"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='notifytemplate',
-            name='email',
+            model_name="notifytemplate",
+            name="email",
         ),
         migrations.AlterField(
-            model_name='notifyconfig',
-            name='is_telegram_enabled',
-            field=models.BooleanField(default=True, verbose_name='Разрешить отправку Telegram'),
+            model_name="notifyconfig",
+            name="is_telegram_enabled",
+            field=models.BooleanField(default=True, verbose_name="Разрешить отправку Telegram"),
         ),
         migrations.AlterField(
-            model_name='notifyuserlist',
-            name='mail_to_all',
-            field=models.BooleanField(default=False, verbose_name='Массовая рассылка для всех пользователей сайта'),
+            model_name="notifyuserlist",
+            name="mail_to_all",
+            field=models.BooleanField(default=False, verbose_name="Массовая рассылка для всех пользователей сайта"),
         ),
         migrations.AlterField(
-            model_name='smtpaccount',
-            name='port',
-            field=models.IntegerField(default=465, verbose_name='Порт'),
+            model_name="smtpaccount",
+            name="port",
+            field=models.IntegerField(default=465, verbose_name="Порт"),
         ),
     ]

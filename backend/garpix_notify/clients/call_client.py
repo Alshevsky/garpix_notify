@@ -12,7 +12,6 @@ from garpix_notify.models.choices import STATE, CALL_URL
 
 
 class CallClient:
-
     class ChoiceValue(enum.Enum):
         OK = 0
         BAD = 1
@@ -24,26 +23,26 @@ class CallClient:
             self.IS_CALL_ENABLED = self.config.is_call_enabled
             self.CALL_URL_TYPE = self.config.call_url_type
         except (DatabaseError, ProgrammingError):
-            self.IS_CALL_ENABLED = getattr(settings, 'IS_CALL_ENABLED', True)
-            self.CALL_URL_TYPE = getattr(settings, 'CALL_URL_TYPE', 0)
+            self.IS_CALL_ENABLED = getattr(settings, "IS_CALL_ENABLED", True)
+            self.CALL_URL_TYPE = getattr(settings, "CALL_URL_TYPE", 0)
 
     def __value_checker(self, response_dict: dict) -> Optional[int]:
         value: Optional[int] = None
 
         if self.CALL_URL_TYPE in (CALL_URL.SMSRU_CALL_ID, CALL_URL.SMSRU_CALL_API_ID):
-            if response_dict['status'] == "OK":
+            if response_dict["status"] == "OK":
                 value = self.ChoiceValue.OK.value
             else:
                 value = self.ChoiceValue.BAD.value
 
         elif self.CALL_URL_TYPE == CALL_URL.SMSCENTRE_ID:
-            if response_dict['error']:
+            if response_dict["error"]:
                 value = self.ChoiceValue.BAD.value
             else:
                 value = self.ChoiceValue.OK.value
 
         elif self.CALL_URL_TYPE == CALL_URL.UCALLER_ID:
-            if response_dict['status']:
+            if response_dict["status"]:
                 value = self.ChoiceValue.OK.value
             else:
                 value = self.ChoiceValue.BAD.value
@@ -52,47 +51,62 @@ class CallClient:
     def __response_check(self, response: dict, status: int) -> dict:
         if status == self.ChoiceValue.OK.value:
             response_processing: dict = {
-                0: {'Status': response.get('status'),
-                    'Code': response.get('code'),
-                    'Balance': response.get('balance'),
-                    'ID_Call': response.get('call_id')},
-                1: {'Status': response.get('status'),
-                    'Code': response.get('code'),
-                    'Balance': response.get('balance'),
-                    'ID_Call': response.get('call_id')},
-
-                2: {'Status': response.get('id'),
-                    'Code': response.get('code'),
-                    'ID_Call': response.get('cnt'),
-                    'Balance': response.get('balance')},
-
-                3: {'Status': response.get('status'),
-                    'Code': response.get('code'),
-                    'Balance': response.get('balance'),
-                    'ID_Call': response.get('unique_request_id')}}
+                0: {
+                    "Status": response.get("status"),
+                    "Code": response.get("code"),
+                    "Balance": response.get("balance"),
+                    "ID_Call": response.get("call_id"),
+                },
+                1: {
+                    "Status": response.get("status"),
+                    "Code": response.get("code"),
+                    "Balance": response.get("balance"),
+                    "ID_Call": response.get("call_id"),
+                },
+                2: {
+                    "Status": response.get("id"),
+                    "Code": response.get("code"),
+                    "ID_Call": response.get("cnt"),
+                    "Balance": response.get("balance"),
+                },
+                3: {
+                    "Status": response.get("status"),
+                    "Code": response.get("code"),
+                    "Balance": response.get("balance"),
+                    "ID_Call": response.get("unique_request_id"),
+                },
+            }
 
         else:
             response_processing: dict = {
-                0: {'Status': response.get('status'),
-                    'Status_code': response.get('status_code'),
-                    'Status_text': response.get('status_text')},
-                1: {'Status': response.get('status'),
-                    'Status_code': response.get('status_code'),
-                    'Status_text': response.get('status_text')},
-                2: {'Status': response.get('status'),
-                    'Status_code': response.get('error_code'),
-                    'Status_text': response.get('error')},
-                3: {'Status': response.get('status'),
-                    'Status_code': response.get('code'),
-                    'Status_text': response.get('error')}}
+                0: {
+                    "Status": response.get("status"),
+                    "Status_code": response.get("status_code"),
+                    "Status_text": response.get("status_text"),
+                },
+                1: {
+                    "Status": response.get("status"),
+                    "Status_code": response.get("status_code"),
+                    "Status_text": response.get("status_text"),
+                },
+                2: {
+                    "Status": response.get("status"),
+                    "Status_code": response.get("error_code"),
+                    "Status_text": response.get("error"),
+                },
+                3: {
+                    "Status": response.get("status"),
+                    "Status_code": response.get("code"),
+                    "Status_text": response.get("error"),
+                },
+            }
 
         return response_processing[self.CALL_URL_TYPE]
 
     def __send_call_code(self) -> None:
-
         if not self.IS_CALL_ENABLED:
             self.notify.state = STATE.DISABLED
-            self.notify.to_log('Not sent (sending is prohibited by settings)')
+            self.notify.to_log("Not sent (sending is prohibited by settings)")
             return
 
         phone = str(self.notify.phone)
@@ -112,13 +126,13 @@ class CallClient:
     def __save_to_log(self, response: dict, value: int) -> None:
         if value == self.ChoiceValue.OK.value:
             self.notify.to_log(
-                'Status: {Status}, Code: {Code}, Balance: {Balance}, ID_Call: {ID_Call}'.format(**response)
+                "Status: {Status}, Code: {Code}, Balance: {Balance}, ID_Call: {ID_Call}".format(**response)
             )
             self.notify.state = STATE.DELIVERED
             self.notify.sent_at = now()
         elif value == self.ChoiceValue.BAD.value:
             self.notify.to_log(
-                'Status: {Status}, Status_code: {Status_code}, Status_text: {Status_text}'.format(**response)
+                "Status: {Status}, Status_code: {Status_code}, Status_text: {Status_text}".format(**response)
             )
             self.notify.state = STATE.REJECTED
 

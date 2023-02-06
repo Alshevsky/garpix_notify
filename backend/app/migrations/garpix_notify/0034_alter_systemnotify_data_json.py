@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0033_auto_20220731_0710'),
+        ("garpix_notify", "0033_auto_20220731_0710"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='systemnotify',
-            name='data_json',
-            field=models.JSONField(blank=True, default=dict, null=True, verbose_name='Данные JSON'),
+            model_name="systemnotify",
+            name="data_json",
+            field=models.JSONField(blank=True, default=dict, null=True, verbose_name="Данные JSON"),
         ),
     ]

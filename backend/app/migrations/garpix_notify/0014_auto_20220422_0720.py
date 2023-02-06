@@ -4,15 +4,25 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0013_auto_20220421_0814'),
+        ("garpix_notify", "0013_auto_20220421_0814"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='notifyconfig',
-            name='sms_url_type',
-            field=models.IntegerField(choices=[(0, 'sms.ru'), (1, 'web.szk-info.ru'), (2, 'iqsms.ru'), (3, 'infosmska.ru'), (4, 'smsc.ru'), (5, 'sms-sending.ru')], default=0, verbose_name='URL СМС провайдера'),
+            model_name="notifyconfig",
+            name="sms_url_type",
+            field=models.IntegerField(
+                choices=[
+                    (0, "sms.ru"),
+                    (1, "web.szk-info.ru"),
+                    (2, "iqsms.ru"),
+                    (3, "infosmska.ru"),
+                    (4, "smsc.ru"),
+                    (5, "sms-sending.ru"),
+                ],
+                default=0,
+                verbose_name="URL СМС провайдера",
+            ),
         ),
     ]

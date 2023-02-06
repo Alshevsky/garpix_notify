@@ -5,15 +5,21 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0028_auto_20220627_0856'),
+        ("garpix_notify", "0028_auto_20220627_0856"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='notify',
-            name='category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='notifies', to='garpix_notify.notifycategory', verbose_name='Категория'),
+            model_name="notify",
+            name="category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="notifies",
+                to="garpix_notify.notifycategory",
+                verbose_name="Категория",
+            ),
         ),
     ]

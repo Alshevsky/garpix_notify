@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0035_notifytemplate_is_delete_after'),
+        ("garpix_notify", "0035_notifytemplate_is_delete_after"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notify',
-            name='is_delete_after',
-            field=models.BooleanField(default=False, verbose_name='Удалять после отправки'),
+            model_name="notify",
+            name="is_delete_after",
+            field=models.BooleanField(default=False, verbose_name="Удалять после отправки"),
         ),
     ]

@@ -4,25 +4,30 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0006_auto_20220120_1206'),
+        ("garpix_notify", "0006_auto_20220120_1206"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notifyconfig',
-            name='sms_login',
-            field=models.CharField(blank=True, default='', max_length=255, verbose_name='Логин пользователя СМС провайдера'),
+            model_name="notifyconfig",
+            name="sms_login",
+            field=models.CharField(
+                blank=True, default="", max_length=255, verbose_name="Логин пользователя СМС провайдера"
+            ),
         ),
         migrations.AddField(
-            model_name='notifyconfig',
-            name='sms_password',
-            field=models.CharField(blank=True, default='', max_length=255, verbose_name='Пароль для api '),
+            model_name="notifyconfig",
+            name="sms_password",
+            field=models.CharField(blank=True, default="", max_length=255, verbose_name="Пароль для api "),
         ),
         migrations.AlterField(
-            model_name='notifyconfig',
-            name='sms_url',
-            field=models.IntegerField(choices=[(0, 'http://sms.ru'), (1, 'http://web.szk-info.ru')], default=0, verbose_name='URL СМС провайдера'),
+            model_name="notifyconfig",
+            name="sms_url",
+            field=models.IntegerField(
+                choices=[(0, "http://sms.ru"), (1, "http://web.szk-info.ru")],
+                default=0,
+                verbose_name="URL СМС провайдера",
+            ),
         ),
     ]

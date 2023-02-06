@@ -5,15 +5,19 @@ import garpix_notify.mixins.user_notify_mixin
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('user', '0001_initial'),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='telegram_secret',
-            field=models.CharField(default=garpix_notify.mixins.user_notify_mixin.generate_uuid, max_length=150, unique=True, verbose_name='Ключ подключения Telegram'),
+            model_name="user",
+            name="telegram_secret",
+            field=models.CharField(
+                default=garpix_notify.mixins.user_notify_mixin.generate_uuid,
+                max_length=150,
+                unique=True,
+                verbose_name="Ключ подключения Telegram",
+            ),
         ),
     ]

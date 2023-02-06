@@ -5,32 +5,40 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0009_auto_20220404_0830'),
+        ("garpix_notify", "0009_auto_20220404_0830"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='notifycategory',
-            name='template',
+            model_name="notifycategory",
+            name="template",
         ),
         migrations.RemoveField(
-            model_name='notifytemplate',
-            name='category',
+            model_name="notifytemplate",
+            name="category",
         ),
         migrations.RemoveField(
-            model_name='notifytemplate',
-            name='user',
+            model_name="notifytemplate",
+            name="user",
         ),
         migrations.AddField(
-            model_name='notifycategory',
-            name='template_choice',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='template', to='garpix_notify.notifytemplate', verbose_name='Выбрать готовый шаблон для категории'),
+            model_name="notifycategory",
+            name="template_choice",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="template",
+                to="garpix_notify.notifytemplate",
+                verbose_name="Выбрать готовый шаблон для категории",
+            ),
         ),
         migrations.AlterField(
-            model_name='notifytemplate',
-            name='user_lists',
-            field=models.ManyToManyField(blank=True, to='garpix_notify.NotifyUserList', verbose_name='Списки пользователей для рассылки'),
+            model_name="notifytemplate",
+            name="user_lists",
+            field=models.ManyToManyField(
+                blank=True, to="garpix_notify.NotifyUserList", verbose_name="Списки пользователей для рассылки"
+            ),
         ),
     ]

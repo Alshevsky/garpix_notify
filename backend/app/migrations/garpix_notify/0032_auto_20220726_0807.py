@@ -4,18 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0031_systemnotify_systemnotifyerrorlog'),
+        ("garpix_notify", "0031_systemnotify_systemnotifyerrorlog"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='systemnotify',
-            name='confirmation_needed',
+            model_name="systemnotify",
+            name="confirmation_needed",
         ),
         migrations.RemoveField(
-            model_name='systemnotify',
-            name='confirmed',
+            model_name="systemnotify",
+            name="confirmed",
         ),
     ]

@@ -6,21 +6,25 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('garpix_notify', '0032_auto_20220726_0807'),
+        ("garpix_notify", "0032_auto_20220726_0807"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notifyuserlist',
-            name='users',
-            field=models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, verbose_name='Пользователи'),
+            model_name="notifyuserlist",
+            name="users",
+            field=models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, verbose_name="Пользователи"),
         ),
         migrations.AlterField(
-            model_name='notify',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notifies', to='garpix_notify.notifycategory', verbose_name='Категория'),
+            model_name="notify",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="notifies",
+                to="garpix_notify.notifycategory",
+                verbose_name="Категория",
+            ),
         ),
     ]

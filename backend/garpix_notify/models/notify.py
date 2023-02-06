@@ -26,7 +26,7 @@ from ..utils.send_data import SendData
 
 from ..clients import SMSClient, EmailClient, CallClient, TelegramClient, ViberClient, PushClient, WhatsAppClient
 
-NotifyMixin = import_string(getattr(settings, 'GARPIX_NOTIFY_MIXIN', 'garpix_notify.mixins.notify_mixin.NotifyMixin'))
+NotifyMixin = import_string(getattr(settings, "GARPIX_NOTIFY_MIXIN", "garpix_notify.mixins.notify_mixin.NotifyMixin"))
 
 User = get_user_model()
 
@@ -35,40 +35,53 @@ class Notify(NotifyMixin, UserNotifyMixin):
     """
     Уведомление
     """
-    subject = models.CharField(max_length=255, default='', blank=True, verbose_name='Тема')
-    text = models.TextField(verbose_name='Текст')
-    html = models.TextField(verbose_name='HTML', blank=True, default='')
 
-    user: User = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL,
-                                   related_name='notifies', verbose_name='Пользователь (получатель)')
-    email = models.EmailField(max_length=255, blank=True, null=True, verbose_name='Email Получателя',
-                              help_text='Используется только в случае отсутствия указанного пользователя')
-    sender_email = models.EmailField(max_length=255, blank=True, null=True, verbose_name='Email Отправителя')
+    subject = models.CharField(max_length=255, default="", blank=True, verbose_name="Тема")
+    text = models.TextField(verbose_name="Текст")
+    html = models.TextField(verbose_name="HTML", blank=True, default="")
 
-    state = models.IntegerField('Состояние', choices=STATE.CHOICES, default=STATE.WAIT)
-    event = models.IntegerField('Событие', choices=settings.CHOICES_NOTIFY_EVENT, blank=True, null=True)
-    room_name = models.CharField('Название комнаты', max_length=255, null=True, blank=True)
-    type = models.IntegerField(choices=TYPE.CHOICES, verbose_name='Тип')
-    category = models.ForeignKey(NotifyCategory, on_delete=models.CASCADE, related_name='notifies',
-                                 verbose_name='Категория')
+    user: User = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="notifies",
+        verbose_name="Пользователь (получатель)",
+    )
+    email = models.EmailField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Email Получателя",
+        help_text="Используется только в случае отсутствия указанного пользователя",
+    )
+    sender_email = models.EmailField(max_length=255, blank=True, null=True, verbose_name="Email Отправителя")
 
-    files = models.ManyToManyField(NotifyFile, verbose_name='Файлы')
+    state = models.IntegerField("Состояние", choices=STATE.CHOICES, default=STATE.WAIT)
+    event = models.IntegerField("Событие", choices=settings.CHOICES_NOTIFY_EVENT, blank=True, null=True)
+    room_name = models.CharField("Название комнаты", max_length=255, null=True, blank=True)
+    type = models.IntegerField(choices=TYPE.CHOICES, verbose_name="Тип")
+    category = models.ForeignKey(
+        NotifyCategory, on_delete=models.CASCADE, related_name="notifies", verbose_name="Категория"
+    )
 
-    is_read = models.BooleanField(default=False, verbose_name='Прочитано')
-    data_json = models.TextField(blank=True, null=True, verbose_name='Данные пуш-уведомления (JSON)')
+    files = models.ManyToManyField(NotifyFile, verbose_name="Файлы")
 
-    users_list = models.ManyToManyField(NotifyUserList, blank=True, verbose_name='Списки пользователей для рассылки')
+    is_read = models.BooleanField(default=False, verbose_name="Прочитано")
+    data_json = models.TextField(blank=True, null=True, verbose_name="Данные пуш-уведомления (JSON)")
 
-    send_at = models.DateTimeField(blank=True, null=True, verbose_name='Время начала отправки')
-    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
-    sent_at = models.DateTimeField('Дата отправки', blank=True, null=True)
+    users_list = models.ManyToManyField(NotifyUserList, blank=True, verbose_name="Списки пользователей для рассылки")
 
-    is_delete_after = models.BooleanField(default=False, verbose_name='Удалять после отправки')
+    send_at = models.DateTimeField(blank=True, null=True, verbose_name="Время начала отправки")
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+    sent_at = models.DateTimeField("Дата отправки", blank=True, null=True)
+
+    is_delete_after = models.BooleanField(default=False, verbose_name="Удалять после отправки")
 
     objects = Manager()
 
     def __str__(self):
-        return self.subject if self.subject and self.subject != '' else f'Уведомление № {self.id}'
+        return self.subject if self.subject and self.subject != "" else f"Уведомление № {self.id}"
 
     def _get_sender(self):
         if self.user:
@@ -81,7 +94,6 @@ class Notify(NotifyMixin, UserNotifyMixin):
             self.phone = re.sub(r"\D", "", self.phone)
 
     def start_send(self):  # noqa
-
         # Если передан пользователь, то перезаписываем данные (если они есть у пользователя)
         self._get_sender()
 
@@ -106,11 +118,22 @@ class Notify(NotifyMixin, UserNotifyMixin):
             self.save()
 
     @staticmethod
-    def send(event: int, context: dict, user: User = None, email: str = None, phone: str = None,  # noqa: C901
-             files: list = None, data_json: dict = None, viber_chat_id: str = None, room_name: str = None,
-             notify_templates: list = None, send_at: datetime = None, send_now: bool = False,
-             user_want_message_check: bool = False, **kwargs) -> List[Optional['Notify']]:
-
+    def send(
+        event: int,
+        context: dict,
+        user: User = None,
+        email: str = None,
+        phone: str = None,  # noqa: C901
+        files: list = None,
+        data_json: dict = None,
+        viber_chat_id: str = None,
+        room_name: str = None,
+        notify_templates: list = None,
+        send_at: datetime = None,
+        send_now: bool = False,
+        user_want_message_check: bool = False,
+        **kwargs,
+    ) -> List[Optional["Notify"]]:
         if user and not isinstance(user, User):
             raise IsInstanceException()
 
@@ -127,16 +150,14 @@ class Notify(NotifyMixin, UserNotifyMixin):
 
         if notify_templates:
             templates = (
-                NotifyTemplate.objects
-                .select_related('category', 'user')
-                .prefetch_related('user_lists')
+                NotifyTemplate.objects.select_related("category", "user")
+                .prefetch_related("user_lists")
                 .filter(id__in=notify_templates, event=event, is_active=True)
             )
         else:
             templates = (
-                NotifyTemplate.objects
-                .select_related('category', 'user')
-                .prefetch_related('user_lists')
+                NotifyTemplate.objects.select_related("category", "user")
+                .prefetch_related("user_lists")
                 .filter(event=event, is_active=True)
             )
 
@@ -145,7 +166,6 @@ class Notify(NotifyMixin, UserNotifyMixin):
             file_instances = list(map(lambda file: NotifyFile.objects.create(file=file), files))
 
         for template in templates:
-
             notify_users_lists = template.user_lists.all()
 
             # Формируем список основных получателей письма
@@ -159,9 +179,7 @@ class Notify(NotifyMixin, UserNotifyMixin):
             if notify_user:
                 notify_email = notify_user.email if notify_user.email else notify_email
                 notify_phone = notify_user.phone if notify_user.phone else notify_phone
-                notify_viber_chat_id = (
-                    notify_user.viber_chat_id if notify_user.viber_chat_id else notify_viber_chat_id
-                )
+                notify_viber_chat_id = notify_user.viber_chat_id if notify_user.viber_chat_id else notify_viber_chat_id
 
             if notify_user is None and template_user:
                 notify_user = template.user if template.user else None
@@ -181,9 +199,11 @@ class Notify(NotifyMixin, UserNotifyMixin):
                 notify_viber_chat_id = template_viber_chat_id
 
             # Проверка, хочет ли пользователь получить сообщение
-            if user_want_message_check and hasattr(
-                    settings, 'NOTIFY_USER_WANT_MESSAGE_CHECK') and settings.NOTIFY_USER_WANT_MESSAGE_CHECK is not None:
-
+            if (
+                user_want_message_check
+                and hasattr(settings, "NOTIFY_USER_WANT_MESSAGE_CHECK")
+                and settings.NOTIFY_USER_WANT_MESSAGE_CHECK is not None
+            ):
                 user_want_message = import_string(settings.NOTIFY_USER_WANT_MESSAGE_CHECK)
 
                 if not notify_users_lists.exists():
@@ -200,14 +220,16 @@ class Notify(NotifyMixin, UserNotifyMixin):
             # Передаем пользователя в контекст
             if notify_user is not None:
                 if local_context is not None:
-                    local_context.update({
-                        'user': notify_user,
-                    })
+                    local_context.update(
+                        {
+                            "user": notify_user,
+                        }
+                    )
                 else:
                     local_context = {
-                        'user': notify_user,
+                        "user": notify_user,
                     }
-            local_context['event_id'] = event
+            local_context["event_id"] = event
 
             if send_at is not None:
                 notify_send = send_at
@@ -229,7 +251,7 @@ class Notify(NotifyMixin, UserNotifyMixin):
                 send_at=notify_send,
                 room_name=room_name,
                 is_delete_after=template.is_delete_after,
-                **kwargs
+                **kwargs,
             )
             if notify_users_lists.exists():
                 instance.users_list.add(*notify_users_lists)
@@ -265,7 +287,7 @@ class Notify(NotifyMixin, UserNotifyMixin):
         value, response = CallClient.get_value_checker(response_dict)
 
         if value == "OK":
-            return '{Code}'.format(**response)
+            return "{Code}".format(**response)
         return None
 
     def to_log(self, error_text: str) -> None:
@@ -277,25 +299,26 @@ class Notify(NotifyMixin, UserNotifyMixin):
         status: str = StatusMessage.STATUS.get(self.state, undefined)
         return format_html(status)
 
-    get_format_state.short_description = 'Статус'
+    get_format_state.short_description = "Статус"
 
     def _delete_notify(self) -> None:
         files = self.files.all()
         if files.exists():
             for file in files:
-                file_path = f'{settings.MEDIA_ROOT}/{file.file}'
+                file_path = f"{settings.MEDIA_ROOT}/{file.file}"
                 if os.path.isfile(file_path):
                     os.remove(file_path)
             files.delete()
         self.delete()
 
     class Meta:
-        verbose_name = 'Уведомление'
-        verbose_name_plural = 'Уведомления'
+        verbose_name = "Уведомление"
+        verbose_name_plural = "Уведомления"
 
 
 @receiver(post_save, sender=Notify)
 def system_post_save(sender, instance, created, **kwargs):
     from garpix_notify.tasks.tasks import send_system_notifications
+
     if created and instance.type == TYPE.SYSTEM:
         transaction.on_commit(lambda: send_system_notifications.delay(instance.pk))

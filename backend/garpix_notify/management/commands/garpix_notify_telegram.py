@@ -41,13 +41,13 @@ def command_set_key(update, context):
 
 
 class Command(BaseCommand):
-    help = 'Telegram garpix_notify daemon.'
+    help = "Telegram garpix_notify daemon."
 
     def handle(self, *args, **options):
         notify_config = NotifyConfig.get_solo()
         updater = Updater(notify_config.telegram_api_key)
-        updater.dispatcher.add_handler(CommandHandler('start', start))
-        updater.dispatcher.add_handler(CommandHandler('set', command_set_key, pass_args=True))
-        updater.dispatcher.add_handler(CommandHandler('help', show_help))
+        updater.dispatcher.add_handler(CommandHandler("start", start))
+        updater.dispatcher.add_handler(CommandHandler("set", command_set_key, pass_args=True))
+        updater.dispatcher.add_handler(CommandHandler("help", show_help))
         updater.start_polling()
         updater.idle()

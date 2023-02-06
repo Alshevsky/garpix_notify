@@ -4,19 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0004_auto_20210902_1603'),
+        ("garpix_notify", "0004_auto_20210902_1603"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='notifyconfig',
-            name='telegram_bad_key_text',
+            model_name="notifyconfig",
+            name="telegram_bad_key_text",
         ),
         migrations.AddField(
-            model_name='notifyconfig',
-            name='telegram_bad_command_text',
-            field=models.TextField(blank=True, default='Неправильный формат команды', verbose_name='Telegram - Текст неправильной команды бота'),
+            model_name="notifyconfig",
+            name="telegram_bad_command_text",
+            field=models.TextField(
+                blank=True,
+                default="Неправильный формат команды",
+                verbose_name="Telegram - Текст неправильной команды бота",
+            ),
         ),
     ]

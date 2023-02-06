@@ -4,20 +4,25 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0024_auto_20220601_0916'),
+        ("garpix_notify", "0024_auto_20220601_0916"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='notifyconfig',
-            name='call_password',
-            field=models.CharField(blank=True, default='', max_length=255, verbose_name='Пароль пользователя оператора связи'),
+            model_name="notifyconfig",
+            name="call_password",
+            field=models.CharField(
+                blank=True, default="", max_length=255, verbose_name="Пароль пользователя оператора связи"
+            ),
         ),
         migrations.AlterField(
-            model_name='notifyconfig',
-            name='call_url_type',
-            field=models.IntegerField(choices=[(0, 'sms.ru API'), (1, 'sms.ru LOGIN'), (2, 'smsc.ru')], default=0, verbose_name='URL звонка провайдера'),
+            model_name="notifyconfig",
+            name="call_url_type",
+            field=models.IntegerField(
+                choices=[(0, "sms.ru API"), (1, "sms.ru LOGIN"), (2, "smsc.ru")],
+                default=0,
+                verbose_name="URL звонка провайдера",
+            ),
         ),
     ]

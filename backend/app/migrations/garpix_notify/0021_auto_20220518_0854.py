@@ -5,20 +5,25 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0020_notifyconfig_email_malling'),
+        ("garpix_notify", "0020_notifyconfig_email_malling"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='notifycategory',
-            name='template',
-            field=models.TextField(default='{{text}}', verbose_name='Шаблон'),
+            model_name="notifycategory",
+            name="template",
+            field=models.TextField(default="{{text}}", verbose_name="Шаблон"),
         ),
         migrations.AlterField(
-            model_name='smtpaccount',
-            name='category',
-            field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='accounts', to='garpix_notify.notifycategory', verbose_name='Тип'),
+            model_name="smtpaccount",
+            name="category",
+            field=models.ForeignKey(
+                blank=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="accounts",
+                to="garpix_notify.notifycategory",
+                verbose_name="Тип",
+            ),
         ),
     ]

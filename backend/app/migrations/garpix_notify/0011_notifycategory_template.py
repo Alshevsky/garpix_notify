@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0010_auto_20220413_1516'),
+        ("garpix_notify", "0010_auto_20220413_1516"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notifycategory',
-            name='template',
-            field=models.TextField(default='{{text}}', verbose_name='Простой шаблон'),
+            model_name="notifycategory",
+            name="template",
+            field=models.TextField(default="{{text}}", verbose_name="Простой шаблон"),
         ),
     ]

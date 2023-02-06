@@ -3,9 +3,9 @@ from django.db.models import Manager
 
 
 class NotifyCategory(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Заголовок')
-    template = models.TextField(verbose_name='Шаблон', default='{{text}}')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    title = models.CharField(max_length=255, verbose_name="Заголовок")
+    template = models.TextField(verbose_name="Шаблон", default="{{text}}")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
     objects = Manager()
 
@@ -13,5 +13,5 @@ class NotifyCategory(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"

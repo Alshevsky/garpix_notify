@@ -6,7 +6,6 @@ class ArgumentsEmptyException(Exception):
 
 
 class DataTypeException(Exception):
-
     def __init__(self, field, data_type):
         self.field = field
         self.data_type = data_type
@@ -22,14 +21,14 @@ class IsInstanceException(Exception):
 
 
 class TemplatesNotExists(Exception):
-    message = 'NotifyTemplates not exists'
+    message = "NotifyTemplates not exists"
 
     def __init__(self):
         super().__init__(self.message)
 
 
 class UsersListIsNone(Exception):
-    message = 'The list of users is empty'
+    message = "The list of users is empty"
 
     def __init__(self):
         super().__init__(self.message)

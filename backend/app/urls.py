@@ -4,12 +4,12 @@ from django.urls import path, include
 from .views import example_send_notify
 
 urlpatterns = [
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('admin/', admin.site.urls),
-    path('', example_send_notify),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
+    path("admin/", admin.site.urls),
+    path("", example_send_notify),
 ]
 
 if settings.DEBUG_TOOLBAR:
     urlpatterns += [
-        path('__debug__/', include('debug_toolbar.urls')),
+        path("__debug__/", include("debug_toolbar.urls")),
     ]

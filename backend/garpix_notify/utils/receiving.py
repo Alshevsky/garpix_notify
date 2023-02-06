@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 
 
 class ReceivingUsers:
-
     def __init__(self, users_list: list, value: Optional[str] = None):
         self.receivers = []
         self.users_list = users_list
@@ -15,11 +14,16 @@ class ReceivingUsers:
         return receivers_list
 
     def __forming_data_list(self, queryset) -> list:
-        data_list = [{'user': user,
-                      'email': user.email,
-                      'phone': user.phone,
-                      'viber_chat_id': user.viber_chat_id,
-                      'telegram_chat_id': user.telegram_chat_id} for user in queryset]
+        data_list = [
+            {
+                "user": user,
+                "email": user.email,
+                "phone": user.phone,
+                "viber_chat_id": user.viber_chat_id,
+                "telegram_chat_id": user.telegram_chat_id,
+            }
+            for user in queryset
+        ]
         return data_list
 
     def __receiving_users(self) -> list:  # noqa: C901
@@ -43,21 +47,26 @@ class ReceivingUsers:
 
             # Собираем данные из дополнительного списка получателей, если он есть.
             if users_participants.exists():
-                self.receivers.extend([{
-                    'user': participant.user,
-                    'email': participant.user.email if participant.user else participant.email,
-                    'phone': participant.user.phone if participant.user else participant.phone,
-                    'viber_chat_id': (
-                        participant.user.viber_chat_id if participant.user else participant.viber_chat_id
-                    ),
-                    'telegram_chat_id': (
-                        participant.user.telegram_chat_id if participant.user else participant.telegram_chat_id
-                    ),
-                } for participant in users_participants])
+                self.receivers.extend(
+                    [
+                        {
+                            "user": participant.user,
+                            "email": participant.user.email if participant.user else participant.email,
+                            "phone": participant.user.phone if participant.user else participant.phone,
+                            "viber_chat_id": (
+                                participant.user.viber_chat_id if participant.user else participant.viber_chat_id
+                            ),
+                            "telegram_chat_id": (
+                                participant.user.telegram_chat_id if participant.user else participant.telegram_chat_id
+                            ),
+                        }
+                        for participant in users_participants
+                    ]
+                )
 
             # Собираем данные из групп, которые входят в список рассылки
             if user_groups_qs.exists():
-                group_users = user_model.objects.prefetch_related('groups').filter(groups__in=user_groups_qs)
+                group_users = user_model.objects.prefetch_related("groups").filter(groups__in=user_groups_qs)
                 if group_users.exists():
                     data_list: list = self.__forming_data_list(group_users)
                     self.receivers.extend(data_list)

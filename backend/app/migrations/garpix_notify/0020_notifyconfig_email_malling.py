@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0019_auto_20220427_1217'),
+        ("garpix_notify", "0019_auto_20220427_1217"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notifyconfig',
-            name='email_malling',
-            field=models.IntegerField(choices=[(0, 'Обычная рассылка'), (1, 'Скрытая рассылка')], default=1, help_text='Если выбрана обычная рассылка, то пользователи будут видеть email друг друга', verbose_name='Тип массовой рассылки'),
+            model_name="notifyconfig",
+            name="email_malling",
+            field=models.IntegerField(
+                choices=[(0, "Обычная рассылка"), (1, "Скрытая рассылка")],
+                default=1,
+                help_text="Если выбрана обычная рассылка, то пользователи будут видеть email друг друга",
+                verbose_name="Тип массовой рассылки",
+            ),
         ),
     ]

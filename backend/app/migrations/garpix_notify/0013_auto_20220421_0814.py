@@ -4,25 +4,36 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0012_auto_20220414_1314'),
+        ("garpix_notify", "0012_auto_20220414_1314"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notify',
-            name='users_list',
-            field=models.ManyToManyField(blank=True, to='garpix_notify.NotifyUserList', verbose_name='Списки пользователей для рассылки'),
+            model_name="notify",
+            name="users_list",
+            field=models.ManyToManyField(
+                blank=True, to="garpix_notify.NotifyUserList", verbose_name="Списки пользователей для рассылки"
+            ),
         ),
         migrations.AlterField(
-            model_name='notify',
-            name='event',
-            field=models.IntegerField(blank=True, choices=[(1, 'Register'), (2, 'Feeback'), (3, 'Example 1'), (4, 'Example 2'), (5, 'TestEvent')], null=True, verbose_name='Событие'),
+            model_name="notify",
+            name="event",
+            field=models.IntegerField(
+                blank=True,
+                choices=[(1, "Register"), (2, "Feeback"), (3, "Example 1"), (4, "Example 2"), (5, "TestEvent")],
+                null=True,
+                verbose_name="Событие",
+            ),
         ),
         migrations.AlterField(
-            model_name='notifytemplate',
-            name='event',
-            field=models.IntegerField(blank=True, choices=[(1, 'Register'), (2, 'Feeback'), (3, 'Example 1'), (4, 'Example 2'), (5, 'TestEvent')], null=True, verbose_name='Событие'),
+            model_name="notifytemplate",
+            name="event",
+            field=models.IntegerField(
+                blank=True,
+                choices=[(1, "Register"), (2, "Feeback"), (3, "Example 1"), (4, "Example 2"), (5, "TestEvent")],
+                null=True,
+                verbose_name="Событие",
+            ),
         ),
     ]

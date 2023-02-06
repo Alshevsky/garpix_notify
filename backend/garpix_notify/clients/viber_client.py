@@ -11,7 +11,6 @@ from garpix_notify.utils import ReceivingUsers
 
 
 class ViberClient:
-
     def __init__(self, notify):
         self.notify = notify
         try:
@@ -20,28 +19,24 @@ class ViberClient:
             self.VIBER_API_KEY = self.config.viber_api_key
             self.VIBER_BOT_NAME = self.config.viber_bot_name
         except (DatabaseError, ProgrammingError):
-            self.IS_VIBER_ENABLED = getattr(settings, 'IS_VIBER_ENABLED', True)
-            self.VIBER_API_KEY = getattr(settings, 'VIBER_API_KEY', '000000000:AAAAAAAAAA-AAAAAAAA-_AAAAAAAAAAAAAA')
-            self.VIBER_BOT_NAME = getattr(settings, 'VIBER_BOT_NAME', 'MySuperBot')
+            self.IS_VIBER_ENABLED = getattr(settings, "IS_VIBER_ENABLED", True)
+            self.VIBER_API_KEY = getattr(settings, "VIBER_API_KEY", "000000000:AAAAAAAAAA-AAAAAAAA-_AAAAAAAAAAAAAA")
+            self.VIBER_BOT_NAME = getattr(settings, "VIBER_BOT_NAME", "MySuperBot")
 
     def __send_viber_client(self):
         if not self.IS_VIBER_ENABLED:
             self.notify.state = STATE.DISABLED
-            self.notify.to_log('Not sent (sending is prohibited by settings)')
+            self.notify.to_log("Not sent (sending is prohibited by settings)")
             return
 
         text = self.notify.text
-        users_list = self.notify.users_list.all().order_by('-mail_to_all')
+        users_list = self.notify.users_list.all().order_by("-mail_to_all")
 
-        viber = Api(BotConfiguration(
-            name=self.VIBER_BOT_NAME,
-            avatar='',
-            auth_token=self.VIBER_API_KEY
-        ))
+        viber = Api(BotConfiguration(name=self.VIBER_BOT_NAME, avatar="", auth_token=self.VIBER_API_KEY))
         try:
             result = False
             if users_list.exists():
-                participants: list = ReceivingUsers.run_receiving_users(users_list, 'viber_chat_id')
+                participants: list = ReceivingUsers.run_receiving_users(users_list, "viber_chat_id")
                 if participants:
                     for participant in participants:
                         result = viber.send_messages(to=participant, messages=[TextMessage(text=text)])
@@ -53,7 +48,7 @@ class ViberClient:
                 self.notify.sent_at = now()
             else:
                 self.notify.state = STATE.REJECTED
-                self.notify.to_log('REJECTED WITH DATA, please test it.')
+                self.notify.to_log("REJECTED WITH DATA, please test it.")
         except Exception as e:
             self.notify.state = STATE.REJECTED
             self.notify.to_log(str(e))

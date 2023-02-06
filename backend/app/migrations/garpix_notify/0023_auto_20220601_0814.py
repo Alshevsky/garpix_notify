@@ -4,20 +4,43 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0022_auto_20220518_0859'),
+        ("garpix_notify", "0022_auto_20220518_0859"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='notify',
-            name='event',
-            field=models.IntegerField(blank=True, choices=[(1, 'Register'), (2, 'Register call code'), (3, 'Feeback'), (4, 'Example 1'), (5, 'Example 2'), (6, 'TestEvent')], null=True, verbose_name='Событие'),
+            model_name="notify",
+            name="event",
+            field=models.IntegerField(
+                blank=True,
+                choices=[
+                    (1, "Register"),
+                    (2, "Register call code"),
+                    (3, "Feeback"),
+                    (4, "Example 1"),
+                    (5, "Example 2"),
+                    (6, "TestEvent"),
+                ],
+                null=True,
+                verbose_name="Событие",
+            ),
         ),
         migrations.AlterField(
-            model_name='notifytemplate',
-            name='event',
-            field=models.IntegerField(blank=True, choices=[(1, 'Register'), (2, 'Register call code'), (3, 'Feeback'), (4, 'Example 1'), (5, 'Example 2'), (6, 'TestEvent')], null=True, verbose_name='Событие'),
+            model_name="notifytemplate",
+            name="event",
+            field=models.IntegerField(
+                blank=True,
+                choices=[
+                    (1, "Register"),
+                    (2, "Register call code"),
+                    (3, "Feeback"),
+                    (4, "Example 1"),
+                    (5, "Example 2"),
+                    (6, "TestEvent"),
+                ],
+                null=True,
+                verbose_name="Событие",
+            ),
         ),
     ]

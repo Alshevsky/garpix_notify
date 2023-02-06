@@ -8,5 +8,5 @@ class NotifyDevice(FCMDevice):
 
     class Meta:
         proxy = True
-        verbose_name = 'FCM аккаунт'
-        verbose_name_plural = 'FCM аккаунты'
+        verbose_name = "FCM аккаунт"
+        verbose_name_plural = "FCM аккаунты"

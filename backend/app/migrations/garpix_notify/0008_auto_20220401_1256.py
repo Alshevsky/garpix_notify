@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('garpix_notify', '0007_auto_20220401_1248'),
+        ("garpix_notify", "0007_auto_20220401_1248"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='notifyconfig',
-            name='sms_password',
-            field=models.CharField(blank=True, default='', max_length=255, verbose_name='Пароль для api СМС провайдера'),
+            model_name="notifyconfig",
+            name="sms_password",
+            field=models.CharField(
+                blank=True, default="", max_length=255, verbose_name="Пароль для api СМС провайдера"
+            ),
         ),
     ]
